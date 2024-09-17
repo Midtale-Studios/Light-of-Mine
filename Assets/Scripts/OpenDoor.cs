@@ -5,7 +5,7 @@ using UnityEngine.ProBuilder;
 
 public class OpenDoor : MonoBehaviour, Interactable
 {
-    public float rotationDuration = 1f; // Duration of the rotation in seconds
+    public float rotationDuration = 0.5f; // Duration of the rotation in seconds
     private bool isOpen = false; // Track the door's state
     [SerializeField] private GameObject pivotPoint;
 
