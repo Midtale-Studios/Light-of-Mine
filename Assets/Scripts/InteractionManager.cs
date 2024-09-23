@@ -7,10 +7,12 @@ public class PlayerInteraction : MonoBehaviour
 
     void Update()
     {
-        Debug.Log("Checking for interaction...");
-        Debug.DrawRay(transform.position, transform.forward * interactionRange, Color.red);
+        
         if (Input.GetKeyDown(KeyCode.E))
         {
+            Debug.Log("Checking for interaction...");
+            Debug.DrawRay(transform.position, transform.forward * interactionRange, Color.red);
+
             RaycastHit hit;
             if (Physics.Raycast(transform.position, transform.forward, out hit, interactionRange, interactableLayer))
             {

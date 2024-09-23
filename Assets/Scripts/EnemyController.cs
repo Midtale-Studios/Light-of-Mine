@@ -28,9 +28,11 @@ public class EnemyController : MonoBehaviour
     private List<Vector3> patrolPoints;
     private int currentPatrolIndex = 0;
     private float stateTimer = 0f;
+    private Animator animator;
 
     private void Start()
     {
+        animator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
         player = GameObject.FindGameObjectWithTag("Player");
         GeneratePatrolPoints();
@@ -75,6 +77,7 @@ public class EnemyController : MonoBehaviour
     {
         while (true)
         {
+            Debug.Log(currentState);
             switch (currentState)
             {
                 case EnemyState.Patrol:
@@ -91,6 +94,7 @@ public class EnemyController : MonoBehaviour
             yield return null;
         }
     }
+
 
     private void Patrol()
     {
@@ -189,6 +193,23 @@ public class EnemyController : MonoBehaviour
         {
             agent.isStopped = false;
         }
+
+        switch (currentState)
+            {
+                case EnemyState.Patrol:
+                    // code for entering patrol
+                    animator.Play("PatrolAnimation");
+                    break;
+                case EnemyState.Stalk:
+                    // code for stalking
+                    animator.Play("StalkAnimation");
+                    break;
+                case EnemyState.Chase:
+                    // code for chasing
+                    animator.Play("ChaseAnimation");
+                    break;
+            }
+
     }
 
     private bool CanSeePlayer()
@@ -203,7 +224,11 @@ public class EnemyController : MonoBehaviour
                 {
                     Debug.DrawRay(transform.position, directionToPlayer * sightRange, Color.red, 0.1f);
                 }
-                return hit.collider.gameObject == player;
+                var hitPlayer = hit.collider.gameObject == player;
+                if (hitPlayer){
+                    Debug.Log("Player sighted");
+                }
+                return hitPlayer;
             }
         }
         return false;

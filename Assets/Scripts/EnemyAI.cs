@@ -38,6 +38,7 @@ public class EnemyAI : MonoBehaviour
             {
                 if (hit.collider.CompareTag("Player"))
                 {
+                    Debug.Log("Player sighted, chasing!");
                     target = hit.transform;
                 }
             }
