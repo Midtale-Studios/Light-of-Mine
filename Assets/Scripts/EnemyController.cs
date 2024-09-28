@@ -77,7 +77,7 @@ public class EnemyController : MonoBehaviour
     {
         while (true)
         {
-            Debug.Log(currentState);
+            //Debug.Log(currentState);
             switch (currentState)
             {
                 case EnemyState.Patrol:
