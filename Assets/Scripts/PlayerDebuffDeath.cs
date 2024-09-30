@@ -9,6 +9,8 @@ public class PlayerDebuffs : MonoBehaviour
     public FirstPersonController firstPersonController;
     public Animator cameraAnimator;
     public CanvasGroup blackOutImage;
+    public float minWaitTime;
+    public float maxWaitTime;
 
     private bool isFadeIn = false;
     private GameObject teleportDestination;
@@ -20,7 +22,7 @@ public class PlayerDebuffs : MonoBehaviour
         teleportDestination.transform.position = transform.position;
         teleportDestination.transform.SetParent(null);
 
-        timeBetweenDeaths = Random.Range(8, 18);
+        timeBetweenDeaths = Random.Range(minWaitTime, maxWaitTime);
     }
 
     // Update is called once per frame
@@ -39,7 +41,7 @@ public class PlayerDebuffs : MonoBehaviour
         if (timeBetweenDeaths > 0) { return; }
         
         StartDeathFlashback();
-        timeBetweenDeaths = Random.Range(8, 18);
+        timeBetweenDeaths = Random.Range(minWaitTime, maxWaitTime);
     }
 
     //During a flash back this updates the fade in
@@ -48,7 +50,7 @@ public class PlayerDebuffs : MonoBehaviour
         if (isFadeIn)
         {
             float newFade = blackOutImage.alpha - (Time.deltaTime / 2);
-            Debug.Log(newFade);
+            //Debug.Log(newFade);
             blackOutImage.alpha = newFade;
             if (blackOutImage.alpha == 0)
             {
@@ -61,6 +63,7 @@ public class PlayerDebuffs : MonoBehaviour
     //Handles start of flashback
     void StartDeathFlashback(){
         transform.position = teleportDestination.transform.position;
+        transform.rotation = teleportDestination.transform.rotation;
         Debug.Log("anaimtion start");
         cameraAnimator.Play("DeathMaskDebuff", 0, 0.0f);
         blackOutImage.alpha = 1f;
@@ -77,6 +80,7 @@ public class PlayerDebuffs : MonoBehaviour
         if(Vector3.Distance(transform.position, teleportDestination.transform.position) > 15f ){
             Debug.Log("updating position");
             teleportDestination.transform.position = transform.position;
+            teleportDestination.transform.rotation = transform.rotation;
         }
         
     }
