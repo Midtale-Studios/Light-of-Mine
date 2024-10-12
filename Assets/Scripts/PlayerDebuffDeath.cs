@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+//using System.Numerics;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,16 +12,20 @@ public class PlayerDebuffs : MonoBehaviour
     public CanvasGroup blackOutImage;
     public float minWaitTime;
     public float maxWaitTime;
+    public AnimationCurve blink_timing;
 
     private bool isFadeIn = false;
     private GameObject teleportDestination;
     private float timeBetweenDeaths;
+    public float currentCurveX = 0f;
+    private Rigidbody rb;
 
     void Start()
     {
         teleportDestination = new GameObject("Teleport Dest");
         teleportDestination.transform.position = transform.position;
         teleportDestination.transform.SetParent(null);
+        rb = GetComponent<Rigidbody>();
 
         timeBetweenDeaths = Random.Range(minWaitTime, maxWaitTime);
     }
@@ -49,13 +54,15 @@ public class PlayerDebuffs : MonoBehaviour
     {
         if (isFadeIn)
         {
-            float newFade = blackOutImage.alpha - (Time.deltaTime / 2);
+            currentCurveX = currentCurveX + (Time.deltaTime / 3);
             //Debug.Log(newFade);
-            blackOutImage.alpha = newFade;
-            if (blackOutImage.alpha == 0)
+            blackOutImage.alpha = blink_timing.Evaluate(currentCurveX);
+            if (currentCurveX >= 1)
             {
+                Debug.Log("timer up");
                 isFadeIn = false;
                 firstPersonController.enabled = true;
+                currentCurveX = 0f;
             }
         }
     }
@@ -69,11 +76,13 @@ public class PlayerDebuffs : MonoBehaviour
         blackOutImage.alpha = 1f;
         isFadeIn = true;
         firstPersonController.enabled = false;
+        //0 out the velocity of the rigidbody so the player does not slide
+        rb.velocity = new Vector3(0, 0, 0);
     }
 
     //If a flashback is about to happen update the position of the destination object
     void UpdateTeleportDestination(){
-        if(timeBetweenDeaths >= 7f){
+        if(timeBetweenDeaths <= 7f){
             return;
         }
 
