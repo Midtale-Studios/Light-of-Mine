@@ -59,7 +59,7 @@ public class PlayerDebuffs : MonoBehaviour
             blackOutImage.alpha = blink_timing.Evaluate(currentCurveX);
             if (currentCurveX >= 1)
             {
-                Debug.Log("timer up");
+                //Debug.Log("timer up");
                 isFadeIn = false;
                 firstPersonController.enabled = true;
                 currentCurveX = 0f;
@@ -71,7 +71,7 @@ public class PlayerDebuffs : MonoBehaviour
     void StartDeathFlashback(){
         transform.position = teleportDestination.transform.position;
         transform.rotation = teleportDestination.transform.rotation;
-        Debug.Log("anaimtion start");
+        //Debug.Log("anaimtion start");
         cameraAnimator.Play("DeathMaskDebuff", 0, 0.0f);
         blackOutImage.alpha = 1f;
         isFadeIn = true;
@@ -87,7 +87,7 @@ public class PlayerDebuffs : MonoBehaviour
         }
 
         if(Vector3.Distance(transform.position, teleportDestination.transform.position) > 15f ){
-            Debug.Log("updating position");
+            //Debug.Log("updating position");
             teleportDestination.transform.position = transform.position;
             teleportDestination.transform.rotation = transform.rotation;
         }
