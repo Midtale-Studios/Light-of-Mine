@@ -35,7 +35,7 @@ public class FortressWall : MonoBehaviour
         if(blocks.Count == 0) {return;}
 
         currentTime += Time.deltaTime;
-        Debug.Log(currentTime);
+        //Debug.Log(currentTime);
 
         if (currentTime >= timer){
             currentTime = 0f;
